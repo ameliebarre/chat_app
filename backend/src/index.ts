@@ -47,6 +47,9 @@ const startServer = async () => {
   // API routes
   router.use("/api", apiRouter);
 
+  // Parse the incoming requests with JSON payloads (from req.body)
+  router.use(express.json());
+
   // API main router
   router.get("/", (_, res) => {
     res.status(200).json({

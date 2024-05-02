@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response, Router } from "express";
-import { router as AuthRouter } from "./auth.route";
+
+import { router as AuthRouter } from "../routes/auth.route";
 
 const _router: Router = Router();
 
@@ -11,6 +12,6 @@ _router.use(function (req: Request, res: Response, next: NextFunction) {
   next();
 });
 
-_router.use("/v1/auth", AuthRouter);
+_router.use("/auth", AuthRouter);
 
 export const router = _router;

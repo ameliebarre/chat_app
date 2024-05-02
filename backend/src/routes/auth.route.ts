@@ -1,5 +1,8 @@
 import express from "express";
+
 import { login, logout, signup } from "../controllers/auth.controller";
+import validate from "../middlewares/validation.middleware";
+import { emailAddress, password } from "../validators/auth.validator";
 
 const _router = express.Router();
 
