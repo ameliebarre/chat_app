@@ -1,5 +1,6 @@
 import { RequestHandler, Response } from "express";
-import bcrypt from "bcryptjs";
+import { matchedData } from "express-validator";
+import { compare, genSalt, hash } from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { Types } from "mongoose";
 
@@ -39,8 +40,8 @@ export const signup: RequestHandler = async (req, res, next) => {
     const girlAvatarPic = `https://avatar.iran.liara.run/public/girl?username=${username}`;
 
     // Hash password
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
+    const salt = await genSalt(10);
+    const hashedPassword = await hash(password, salt);
 
     let newUser = new User({
       firstname,
@@ -70,8 +71,39 @@ export const signup: RequestHandler = async (req, res, next) => {
   }
 };
 
-export const login: RequestHandler = (req, res) => {
-  console.log("Login");
+export const login: RequestHandler = async (req, res, next) => {
+  try {
+    let bodyData = matchedData(req, {
+      includeOptionals: true,
+      locations: ["body"],
+    });
+
+    const { email, password } = bodyData;
+
+    let user = await User.findOne({ email });
+    const isValidPass = await compare(password, user?.password || "");
+
+    if (!user || !isValidPass) {
+      throw new HttpError({
+        title: "bad_login",
+        detail: "You have entered an invalid email address or password",
+        code: 400,
+      });
+    }
+
+    // Generate token
+    await generateJWT(user._id, res);
+
+    res.status(200).json({
+      _id: user._id,
+      firstname: user.firstname,
+      lastname: user.lastname,
+      email: user.email,
+      avatar: user.avatar,
+    });
+  } catch (error) {
+    next(error);
+  }
 };
 
 export const logout: RequestHandler = (req, res) => {

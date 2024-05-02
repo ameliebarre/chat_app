@@ -21,7 +21,9 @@ _router
     signup,
   );
 
-_router.route("/login").get(validate([emailAddress(), loginPassword()]), login);
+_router
+  .route("/login")
+  .post(validate([emailAddress(), loginPassword()]), login);
 
 _router.get("/logout", logout);
 
