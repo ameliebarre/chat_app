@@ -41,4 +41,17 @@ const password = (field: string) => {
     });
 };
 
-export { emailAddress, password };
+const loginPassword = () => {
+  return body("password")
+    .trim()
+    .escape()
+    .exists()
+    .notEmpty()
+    .isString()
+    .isLength({
+      max: 255,
+    })
+    .withMessage("Password is not valid");
+};
+
+export { emailAddress, password, loginPassword };
