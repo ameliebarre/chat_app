@@ -25,6 +25,6 @@ _router
   .route("/login")
   .post(validate([emailAddress(), loginPassword()]), login);
 
-_router.get("/logout", logout);
+_router.post("/logout", logout);
 
 export const router = _router;
