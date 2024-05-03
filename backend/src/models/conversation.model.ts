@@ -1,7 +1,4 @@
 import mongoose from "mongoose";
-import { IConversation } from "../interfaces";
-
-export interface IConversationModel extends IConversation, Document {}
 
 const ConversationSchema = new mongoose.Schema(
   {
@@ -22,7 +19,6 @@ const ConversationSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
-export default mongoose.model<IConversationModel>(
-  "Conversation",
-  ConversationSchema,
-);
+const Conversation = mongoose.model("Conversation", ConversationSchema);
+
+export default Conversation;

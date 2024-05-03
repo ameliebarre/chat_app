@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import http from "http";
+import cookieParser from "cookie-parser";
 
 import { router as apiRouter } from "./routes/index";
 import config from "./config/config";
@@ -43,6 +44,7 @@ const startServer = async () => {
 
   router.use(express.urlencoded({ extended: true }));
   router.use(express.json());
+  router.use(cookieParser());
 
   // API routes
   router.use("/api", apiRouter);
@@ -60,7 +62,7 @@ const startServer = async () => {
   });
 
   // API error handling
-  router.use((req, res, next) => {
+  router.use((_, res, next) => {
     const error = new Error("not found");
     console.error(error);
     return res.status(404).json({ success: false, message: error.message });

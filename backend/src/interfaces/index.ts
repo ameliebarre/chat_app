@@ -1,6 +1,5 @@
 import { ApiErrorInterface } from "./apiError.interface";
 import { IUser } from "./user.interface";
-import { IMessage } from "./message.interface";
-import { IConversation } from "./conversation.interface";
+import { DataStoredInToken, RequestWithUser } from "./auth.interface";
 
-export { ApiErrorInterface, IUser, IMessage, IConversation };
+export { ApiErrorInterface, IUser, DataStoredInToken, RequestWithUser };

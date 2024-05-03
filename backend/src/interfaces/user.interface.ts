@@ -1,4 +1,6 @@
-export interface IUser {
+import { Request } from "express";
+
+interface IUser {
   firstname: string;
   lastname: string;
   username: string;
@@ -6,3 +8,5 @@ export interface IUser {
   password: string;
   avatar: string;
 }
+
+export { IUser };
